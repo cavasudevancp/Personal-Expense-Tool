@@ -44,17 +44,24 @@
       tbody.innerHTML = "";
       let total = 0;
 
-      expenses.forEach(exp => {
+      expenses.forEach((exp, index) => {
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${exp.amount}</td>
           <td>${exp.category}</td>
+          <td>${exp.payment}</td>
           <td>${exp.date}</td>
           <td>${exp.description}</td>
+          <td><button onclick="deleteExpense(${index})">Delete</button></td>
         `;
         tbody.appendChild(row);
         total += parseFloat(exp.amount);
       });
+
+      function deleteExpense(index) {
+        expenses.splice(index, 1);
+        renderExpenses();
+      }
 
       document.getElementById("total").textContent = total.toFixed(2);
       localStorage.setItem("expenses", JSON.stringify(expenses));
